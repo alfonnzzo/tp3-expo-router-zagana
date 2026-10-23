@@ -75,7 +75,7 @@ export default function NuevoReporte() {
         onGrabada={(notaVozUri) => actualizarBorrador({ notaVozUri })}
       />
       <CampoTexto
-        etiqueta="Aula"
+        etiqueta="Lugar"
         valor={borrador.aula}
         onChangeText={(aula) => actualizarBorrador({ aula })}
         placeholder="Por ejemplo: Aula 4"

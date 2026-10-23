@@ -66,6 +66,7 @@
           "locationWhenInUsePermission": "Usamos tu ubicación para marcar en qué parte del edificio está el desperfecto.",
           "locationAlwaysAndWhenInUsePermission": false,
           "locationAlwaysPermission": false,
+          "locationFullAccuracyPermission": false,
           "motionUsagePermission": false
         }
       ],

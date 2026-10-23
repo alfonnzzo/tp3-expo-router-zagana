@@ -2,7 +2,10 @@
 
 App para que alumnos y docentes del Instituto Politécnico Formosa reporten desperfectos del edificio.
 La app avisa cuando el reporte se resuelve.
-Está hecha con Expo SDK 57, Expo Router y TypeScript.
+Está hecha con Expo SDK 58, Expo Router y TypeScript.
+La consigna pide SDK 57.
+El proyecto se actualizó después a SDK 58, que es la versión actual de Expo.
+SDK 58 mantiene los mismos valores que pide el TP: API 36 en Android e iOS 16.4 como mínimo.
 Usa la cámara, la ubicación, las notificaciones y el micrófono.
 Las fotos de la galería se eligen sin pedir permiso de galería.
 
@@ -94,6 +97,7 @@ src/lib          permisos, ubicacion, notificaciones, reportes, tipos
       "locationWhenInUsePermission": "Usamos tu ubicación para marcar en qué parte del edificio está el desperfecto.",
       "locationAlwaysAndWhenInUsePermission": false,
       "locationAlwaysPermission": false,
+      "locationFullAccuracyPermission": false,
       "motionUsagePermission": false
     }
   ],
@@ -122,6 +126,7 @@ Por eso cada opción se explica en esta tabla.
 | expo-camera | `recordAudioAndroid: false` | La cámara no agrega `RECORD_AUDIO` en Android. |
 | expo-location | `locationWhenInUsePermission` | Texto de propósito de la ubicación en uso. |
 | expo-location | `locationAlwaysAndWhenInUsePermission: false` y `locationAlwaysPermission: false` | No se declara la ubicación "Siempre". La app usa solo primer plano. |
+| expo-location | `locationFullAccuracyPermission: false` | La app no pide pasar de ubicación aproximada a precisa. Así iOS no agrega ese texto extra. |
 | expo-location | `motionUsagePermission: false` | La app no usa sensores de movimiento. |
 | expo-image-picker | `photosPermission: false` | No se declara acceso a la galería. El selector del sistema no lo necesita. |
 | expo-image-picker | `cameraPermission` | Mismo texto que en expo-camera. Los dos plugins escriben la misma clave. |

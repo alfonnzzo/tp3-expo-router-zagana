@@ -2,7 +2,7 @@
 
 Alumno: Alfonso Zagaña Torancio.
 Materia: Taller Complementario React Native II. Instituto Politécnico Formosa.
-Proyecto: Expo SDK 57 con Expo Router.
+Proyecto: Expo SDK 58 con Expo Router. Las preguntas hablan de SDK 57. Donde el dato cambia entre las dos versiones, lo aclaro.
 
 ---
 
@@ -149,7 +149,7 @@ e) Android cierra el proceso de la app. Al volver, la app arranca de nuevo. Por 
 | Acceso parcial a fotos y videos ("Seleccionar fotos") | Android 14 (API 34) | Aparece `READ_MEDIA_VISUAL_USER_SELECTED`. Conviene usar el selector del sistema. |
 | Permiso de red local (`ACCESS_LOCAL_NETWORK`) | Android 17 (API 37) | Las apps que apuntan a API 37 deben declararlo y pedirlo para hablar con equipos de la red local. |
 
-`targetSdkVersion` indica para qué versión de Android se preparó la app. El sistema le aplica las reglas nuevas de esa versión. Expo SDK 57 apunta a API 36 (Android 16). Google Play exige desde el 31 de agosto de 2026 que las apps nuevas y las actualizaciones apunten a API 36 o superior.
+`targetSdkVersion` indica para qué versión de Android se preparó la app. El sistema le aplica las reglas nuevas de esa versión. Expo SDK 57 apunta a API 36 (Android 16). SDK 58, que usa este proyecto, también apunta a API 36. Google Play exige desde el 31 de agosto de 2026 que las apps nuevas y las actualizaciones apunten a API 36 o superior.
 
 ---
 
@@ -201,7 +201,7 @@ d) Apple revisa el binario y encuentra el uso de la API protegida dentro de la l
 | Notificaciones provisionales | iOS 12 | Se piden con `requestPermissionsAsync({ ios: { allowProvisional: true } })`. Se detectan con `ios.status === IosAuthorizationStatus.PROVISIONAL`. |
 | Rastreo entre apps (App Tracking Transparency) | iOS 14.5 | `expo-tracking-transparency`: `requestTrackingPermissionsAsync()`. |
 
-Expo SDK 57 requiere iOS 16.4 como mínimo. La consecuencia práctica es que todos los casos de la tabla existen en cualquier iPhone compatible. No hace falta código distinto por versión de iOS.
+Expo SDK 57 requiere iOS 16.4 como mínimo. SDK 58 mantiene el mismo mínimo. La consecuencia práctica es que todos los casos de la tabla existen en cualquier iPhone compatible. No hace falta código distinto por versión de iOS.
 
 ### C5. Android vs iOS, lado a lado
 
@@ -555,4 +555,4 @@ e) Causa: la app trata el permiso de notificaciones como obligatorio. Solución:
 - Permiso de red local de Android: https://developer.android.com/privacy-and-security/local-network-permission
 - Política de fotos y videos de Google Play: https://support.google.com/googleplay/android-developer/answer/14115180
 - Permisos restringidos y selector de contactos: https://support.google.com/googleplay/android-developer/answer/16935362
-- Valores de SDK 57 tomados del código instalado: `expo-modules-core/android/ExpoModulesCorePlugin.gradle` (targetSdkVersion 36) y `expo-modules-core/ExpoModulesCore.podspec` (iOS 16.4).
+- Valores de SDK 57 y SDK 58 tomados del código instalado de cada versión: `expo-modules-core/android/ExpoModulesCorePlugin.gradle` (targetSdkVersion 36) y `expo-modules-core/ExpoModulesCore.podspec` (iOS 16.4).
