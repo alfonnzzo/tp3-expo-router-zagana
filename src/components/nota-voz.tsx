@@ -2,12 +2,13 @@ import {
   RecordingPresets,
   setAudioModeAsync,
   useAudioPlayer,
+  useAudioPlayerStatus,
   useAudioRecorder,
   useAudioRecorderState,
 } from 'expo-audio';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 
 import { Boton } from '@/components/boton';
 import { ThemedText } from '@/components/themed-text';
@@ -97,12 +98,35 @@ export function NotaVoz({ uri, onGrabada }: NotaVozProps) {
   );
 }
 
+function formatearTiempo(segundos: number) {
+  const total = Math.floor(segundos);
+  const minutos = Math.floor(total / 60);
+  const resto = total % 60;
+  return minutos + ':' + (resto < 10 ? '0' + resto : resto);
+}
+
 export function EscucharNota({ uri }: { uri: string }) {
   const reproductor = useAudioPlayer(uri);
+  const estado = useAudioPlayerStatus(reproductor);
 
   function escuchar() {
     reproductor.seekTo(0);
     reproductor.play();
+  }
+
+  if (estado.playing) {
+    return (
+      <ThemedView type="backgroundElement" style={styles.aviso}>
+        <ThemedView type="backgroundElement" style={styles.fila}>
+          <ActivityIndicator />
+          <ThemedText type="smallBold">Reproduciendo nota de voz</ThemedText>
+        </ThemedView>
+        <ThemedText type="small" themeColor="textSecondary">
+          {formatearTiempo(estado.currentTime)} / {formatearTiempo(estado.duration)}
+        </ThemedText>
+        <Boton titulo="Detener" variante="secundario" onPress={() => reproductor.pause()} />
+      </ThemedView>
+    );
   }
 
   return <Boton titulo="Escuchar nota de voz" variante="secundario" onPress={escuchar} />;
@@ -115,6 +139,11 @@ const styles = StyleSheet.create({
   aviso: {
     padding: Spacing.three,
     borderRadius: Spacing.three,
+    gap: Spacing.two,
+  },
+  fila: {
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: Spacing.two,
   },
 });

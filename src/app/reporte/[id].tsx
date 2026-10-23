@@ -1,6 +1,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Image, ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Boton } from '@/components/boton';
 import { EscucharNota } from '@/components/nota-voz';
@@ -55,7 +56,9 @@ export default function DetalleReporte() {
     if (notificaciones.estado === 'concedido' && avisosActivos) {
       try {
         await programarAvisoResolucion(resuelto);
-        setMensaje('Te enviaremos una notificación en 10 segundos. El aviso también está en Avisos.');
+        setMensaje(
+          'Te enviaremos una notificación en 10 segundos. El aviso también está en Avisos.',
+        );
       } catch {
         setMensaje('No pudimos programar la notificación. El aviso quedó en la bandeja de Avisos.');
       }
@@ -66,43 +69,52 @@ export default function DetalleReporte() {
 
   if (reporte === null) {
     return (
-      <ThemedView style={styles.contenido}>
-        <ThemedText type="subtitle">Reporte no encontrado</ThemedText>
-        <ThemedText>El reporte que buscás no existe o el enlace no es válido.</ThemedText>
-        <Boton titulo="Volver al inicio" onPress={() => router.replace('/')} />
-      </ThemedView>
+      <SafeAreaView style={styles.pantalla} edges={['top']}>
+        <ThemedView style={styles.contenido}>
+          <ThemedText type="subtitle">Reporte no encontrado</ThemedText>
+          <ThemedText>El reporte que buscás no existe o el enlace no es válido.</ThemedText>
+          <Boton titulo="Volver al inicio" onPress={() => router.replace('/')} />
+        </ThemedView>
+      </SafeAreaView>
     );
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.contenido}>
-      <ThemedText type="subtitle">{reporte.titulo}</ThemedText>
-      <ThemedText type="smallBold" themeColor={COLOR_ESTADO[reporte.estado]}>
-        Estado: {reporte.estado}
-      </ThemedText>
-      <ThemedView type="backgroundElement" style={styles.caja}>
-        <ThemedText type="smallBold">Descripción</ThemedText>
-        <ThemedText>{reporte.descripcion === '' ? 'Sin descripción' : reporte.descripcion}</ThemedText>
-        <ThemedText type="smallBold">Aula</ThemedText>
-        <ThemedText>{reporte.aula === '' ? 'Sin aula' : reporte.aula}</ThemedText>
-        <ThemedText type="smallBold">Categoría</ThemedText>
-        <ThemedText>{ETIQUETAS_CATEGORIA[reporte.categoria]}</ThemedText>
-        <ThemedText type="smallBold">Ubicación</ThemedText>
-        <ThemedText>{describirUbicacion(reporte.ubicacion)}</ThemedText>
-      </ThemedView>
-      {reporte.fotoUri ? <Image source={{ uri: reporte.fotoUri }} style={styles.foto} /> : null}
-      {reporte.notaVozUri ? <EscucharNota uri={reporte.notaVozUri} /> : null}
-      <Boton
-        titulo="Simular resolución"
-        onPress={simular}
-        disabled={reporte.estado === 'resuelto'}
-      />
-      {mensaje ? <ThemedText themeColor="exito">{mensaje}</ThemedText> : null}
-    </ScrollView>
+    <SafeAreaView style={styles.pantalla} edges={['top']}>
+      <ScrollView contentContainerStyle={styles.contenido} showsVerticalScrollIndicator={false}>
+        <ThemedText type="subtitle">{reporte.titulo}</ThemedText>
+        <ThemedText type="smallBold" themeColor={COLOR_ESTADO[reporte.estado]}>
+          Estado: {reporte.estado}
+        </ThemedText>
+        <ThemedView type="backgroundElement" style={styles.caja}>
+          <ThemedText type="smallBold">Descripción</ThemedText>
+          <ThemedText>
+            {reporte.descripcion === '' ? 'Sin descripción' : reporte.descripcion}
+          </ThemedText>
+          <ThemedText type="smallBold">Aula</ThemedText>
+          <ThemedText>{reporte.aula === '' ? 'Sin aula' : reporte.aula}</ThemedText>
+          <ThemedText type="smallBold">Categoría</ThemedText>
+          <ThemedText>{ETIQUETAS_CATEGORIA[reporte.categoria]}</ThemedText>
+          <ThemedText type="smallBold">Ubicación</ThemedText>
+          <ThemedText>{describirUbicacion(reporte.ubicacion)}</ThemedText>
+        </ThemedView>
+        {reporte.fotoUri ? <Image source={{ uri: reporte.fotoUri }} style={styles.foto} /> : null}
+        {reporte.notaVozUri ? <EscucharNota uri={reporte.notaVozUri} /> : null}
+        <Boton
+          titulo="Simular resolución"
+          onPress={simular}
+          disabled={reporte.estado === 'resuelto'}
+        />
+        {mensaje ? <ThemedText themeColor="exito">{mensaje}</ThemedText> : null}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  pantalla: {
+    flex: 1,
+  },
   contenido: {
     flexGrow: 1,
     padding: Spacing.three,

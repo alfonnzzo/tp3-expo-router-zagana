@@ -11,6 +11,7 @@ import {
   requestPermissionsAsync,
   type NotificationPermissionsStatus,
 } from 'expo-notifications';
+import { Platform } from 'react-native';
 
 import { crearCanalReportes } from '@/lib/notificaciones';
 import type { EstadoPermiso, Recurso } from '@/lib/tipos';
@@ -62,9 +63,16 @@ export const TEXTOS: Record<Recurso, TextosRecurso> = {
 
 const RESPUESTA_ERROR: RespuestaPermiso = { estado: 'preguntable', parcial: false, detalle: null };
 
-function calcularEstado(respuesta: { granted: boolean; canAskAgain: boolean }): EstadoPermiso {
+function calcularEstado(respuesta: {
+  granted: boolean;
+  canAskAgain: boolean;
+  status: string;
+}): EstadoPermiso {
   if (respuesta.granted) {
     return 'concedido';
+  }
+  if (Platform.OS === 'web' && respuesta.status === 'denied') {
+    return 'bloqueado';
   }
   if (respuesta.canAskAgain) {
     return 'preguntable';
@@ -83,9 +91,7 @@ function respuestaUbicacion(respuesta: LocationPermissionResponse): RespuestaPer
   };
 }
 
-function respuestaNotificaciones(
-  respuesta: NotificationPermissionsStatus
-): RespuestaPermiso {
+function respuestaNotificaciones(respuesta: NotificationPermissionsStatus): RespuestaPermiso {
   const provisional =
     respuesta.granted && respuesta.ios?.status === IosAuthorizationStatus.PROVISIONAL;
   return {

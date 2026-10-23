@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Image, ScrollView, StyleSheet } from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Boton } from '@/components/boton';
 import { CampoTexto } from '@/components/campo-texto';
@@ -55,74 +56,88 @@ export default function NuevoReporte() {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.contenido}>
-      <CampoTexto
-        etiqueta="Título"
-        valor={borrador.titulo}
-        onChangeText={cambiarTitulo}
-        placeholder="Por ejemplo: luz quemada"
-        error={errorTitulo}
-      />
-      <CampoTexto
-        etiqueta="Descripción"
-        valor={borrador.descripcion}
-        onChangeText={(descripcion) => actualizarBorrador({ descripcion })}
-        placeholder="Contanos qué pasa"
-        multilinea
-      />
-      <NotaVoz
-        uri={borrador.notaVozUri}
-        onGrabada={(notaVozUri) => actualizarBorrador({ notaVozUri })}
-      />
-      <CampoTexto
-        etiqueta="Lugar"
-        valor={borrador.aula}
-        onChangeText={(aula) => actualizarBorrador({ aula })}
-        placeholder="Por ejemplo: Aula 4"
-      />
-      <Boton
-        titulo="Escanear QR del aula"
-        variante="secundario"
-        onPress={() => router.push('/reporte/escanear')}
-      />
-      <SelectorOpciones
-        etiqueta="Categoría"
-        opciones={opciones}
-        seleccionado={borrador.categoria}
-        onSeleccionar={(valor) => actualizarBorrador({ categoria: valor as Categoria })}
-      />
-      <ThemedView style={styles.bloque}>
-        <ThemedText type="smallBold">Foto</ThemedText>
-        {borrador.fotoUri ? (
-          <Image source={{ uri: borrador.fotoUri }} style={styles.foto} />
-        ) : (
-          <ThemedText type="small" themeColor="textSecondary">
-            Sin foto. Es opcional.
-          </ThemedText>
-        )}
-        <Boton
-          titulo="Adjuntar foto"
-          variante="secundario"
-          onPress={() => router.push('/reporte/foto')}
-        />
-      </ThemedView>
-      <ThemedView style={styles.bloque}>
-        <ThemedText type="smallBold">Ubicación</ThemedText>
-        <ThemedText type="small" themeColor="textSecondary">
-          {describirUbicacion(borrador.ubicacion)}
-        </ThemedText>
-        <Boton
-          titulo="Marcar ubicación"
-          variante="secundario"
-          onPress={() => router.push('/reporte/ubicacion')}
-        />
-      </ThemedView>
-      <Boton titulo="Guardar reporte" onPress={guardar} />
-    </ScrollView>
+    <SafeAreaView style={styles.pantalla} edges={['top']}>
+      <KeyboardAvoidingView
+        style={styles.pantalla}
+        behavior={Platform.OS === 'android' ? 'height' : undefined}>
+        <ScrollView
+          contentContainerStyle={styles.contenido}
+          showsVerticalScrollIndicator={false}
+          automaticallyAdjustKeyboardInsets
+          keyboardShouldPersistTaps="handled">
+          <ThemedText type="subtitle">Nuevo reporte</ThemedText>
+          <CampoTexto
+            etiqueta="Título"
+            valor={borrador.titulo}
+            onChangeText={cambiarTitulo}
+            placeholder="Por ejemplo: luz quemada"
+            error={errorTitulo}
+          />
+          <CampoTexto
+            etiqueta="Descripción"
+            valor={borrador.descripcion}
+            onChangeText={(descripcion) => actualizarBorrador({ descripcion })}
+            placeholder="Contanos qué pasa"
+            multilinea
+          />
+          <NotaVoz
+            uri={borrador.notaVozUri}
+            onGrabada={(notaVozUri) => actualizarBorrador({ notaVozUri })}
+          />
+          <CampoTexto
+            etiqueta="Lugar"
+            valor={borrador.aula}
+            onChangeText={(aula) => actualizarBorrador({ aula })}
+            placeholder="Por ejemplo: Aula 4"
+          />
+          <Boton
+            titulo="Escanear QR del aula"
+            variante="secundario"
+            onPress={() => router.push('/reporte/escanear')}
+          />
+          <SelectorOpciones
+            etiqueta="Categoría"
+            opciones={opciones}
+            seleccionado={borrador.categoria}
+            onSeleccionar={(valor) => actualizarBorrador({ categoria: valor as Categoria })}
+          />
+          <ThemedView style={styles.bloque}>
+            <ThemedText type="smallBold">Foto</ThemedText>
+            {borrador.fotoUri ? (
+              <Image source={{ uri: borrador.fotoUri }} style={styles.foto} />
+            ) : (
+              <ThemedText type="small" themeColor="textSecondary">
+                Sin foto. Es opcional.
+              </ThemedText>
+            )}
+            <Boton
+              titulo="Adjuntar foto"
+              variante="secundario"
+              onPress={() => router.push('/reporte/foto')}
+            />
+          </ThemedView>
+          <ThemedView style={styles.bloque}>
+            <ThemedText type="smallBold">Ubicación</ThemedText>
+            <ThemedText type="small" themeColor="textSecondary">
+              {describirUbicacion(borrador.ubicacion)}
+            </ThemedText>
+            <Boton
+              titulo="Marcar ubicación"
+              variante="secundario"
+              onPress={() => router.push('/reporte/ubicacion')}
+            />
+          </ThemedView>
+          <Boton titulo="Guardar reporte" onPress={guardar} />
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  pantalla: {
+    flex: 1,
+  },
   contenido: {
     padding: Spacing.three,
     gap: Spacing.three,

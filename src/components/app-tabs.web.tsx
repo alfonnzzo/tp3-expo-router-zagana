@@ -11,12 +11,12 @@ import { Pressable, View, StyleSheet } from 'react-native';
 import { ThemedText } from './themed-text';
 import { ThemedView } from './themed-view';
 
-import { MaxContentWidth, Spacing } from '@/constants/theme';
+import { Spacing } from '@/constants/theme';
 
 export default function AppTabs() {
   return (
-    <Tabs>
-      <TabSlot style={{ height: '100%' }} />
+    <Tabs style={styles.contenedor}>
+      <TabSlot style={styles.contenido} />
       <TabList asChild>
         <CustomTabList>
           <TabTrigger name="index" href="/" asChild>
@@ -36,11 +36,11 @@ export default function AppTabs() {
 
 export function TabButton({ children, isFocused, ref, ...props }: TabTriggerSlotProps) {
   return (
-    <Pressable {...props} style={({ pressed }) => pressed && styles.pressed}>
+    <Pressable {...props} style={({ pressed }) => [styles.boton, pressed && styles.presionado]}>
       <ThemedView
         type={isFocused ? 'backgroundSelected' : 'backgroundElement'}
-        style={styles.tabButtonView}>
-        <ThemedText type="small" themeColor={isFocused ? 'text' : 'textSecondary'}>
+        style={styles.botonInterior}>
+        <ThemedText type="smallBold" themeColor={isFocused ? 'primario' : 'textSecondary'}>
           {children}
         </ThemedText>
       </ThemedView>
@@ -50,12 +50,8 @@ export function TabButton({ children, isFocused, ref, ...props }: TabTriggerSlot
 
 export function CustomTabList(props: TabListProps) {
   return (
-    <View {...props} style={styles.tabListContainer}>
-      <ThemedView type="backgroundElement" style={styles.innerContainer}>
-        <ThemedText type="smallBold" style={styles.brandText}>
-          Mantenimiento IPF
-        </ThemedText>
-
+    <View {...props} style={styles.barra}>
+      <ThemedView type="backgroundElement" style={styles.barraInterior}>
         {props.children}
       </ThemedView>
     </View>
@@ -63,33 +59,38 @@ export function CustomTabList(props: TabListProps) {
 }
 
 const styles = StyleSheet.create({
-  tabListContainer: {
+  contenedor: {
+    flex: 1,
+    overflow: 'hidden',
+  },
+  contenido: {
+    flex: 1,
+  },
+  barra: {
     position: 'absolute',
-    width: '100%',
+    left: 0,
+    right: 0,
+    bottom: 0,
     padding: Spacing.three,
-    justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row',
   },
-  innerContainer: {
-    paddingVertical: Spacing.two,
-    paddingHorizontal: Spacing.five,
+  barraInterior: {
+    flexDirection: 'row',
+    width: '100%',
+    maxWidth: 400,
+    padding: Spacing.one,
     borderRadius: Spacing.five,
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexGrow: 1,
-    gap: Spacing.two,
-    maxWidth: MaxContentWidth,
+    gap: Spacing.one,
   },
-  brandText: {
-    marginRight: 'auto',
+  boton: {
+    flex: 1,
   },
-  pressed: {
+  presionado: {
     opacity: 0.7,
   },
-  tabButtonView: {
-    paddingVertical: Spacing.one,
-    paddingHorizontal: Spacing.three,
-    borderRadius: Spacing.three,
+  botonInterior: {
+    alignItems: 'center',
+    paddingVertical: Spacing.three,
+    borderRadius: Spacing.five,
   },
 });

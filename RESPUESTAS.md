@@ -29,13 +29,13 @@ d) La visita es la app. El portero es el sistema operativo. El dueño del depart
 
 ### A2. Declarar y solicitar
 
-| | Declarar (al compilar) | Solicitar (al ejecutar) |
-|---|---|---|
-| ¿Qué se hace? | Se anuncia qué permisos usa la app y, en iOS, para qué los usa. | Se le pide a la persona que autorice, con el diálogo del sistema. |
-| ¿Dónde / cómo en Android? | En `AndroidManifest.xml`, con `<uses-permission>`. | Con `requestPermissions` del sistema. Solo para permisos de tiempo de ejecución. |
-| ¿Dónde / cómo en iOS? | En `Info.plist`, con la clave `NS...UsageDescription` y el texto de propósito. | Con la función del framework de cada recurso. El diálogo aparece una sola vez. |
-| ¿Dónde / cómo en Expo? | En `app.json`: el plugin de cada módulo, `android.permissions`, `android.blockedPermissions` e `ios.infoPlist`. Se aplica con prebuild. | Con las funciones de cada módulo: `use...Permissions()`, `get...PermissionsAsync()` y `request...PermissionsAsync()`. |
-| ¿Qué pasa si se omite? | Android deniega el pedido sin mostrar diálogo. iOS cierra la app y la build puede ser rechazada. | La función no anda. Sin pedir no hay permiso, salvo los de instalación. |
+|                              | Declarar (al compilar)                                                                                                                           | Solicitar (al ejecutar)                                                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| ¿Qué se hace?              | Se anuncia qué permisos usa la app y, en iOS, para qué los usa.                                                                                | Se le pide a la persona que autorice, con el diálogo del sistema.                                                           |
+| ¿Dónde / cómo en Android? | En `AndroidManifest.xml`, con `<uses-permission>`.                                                                                           | Con `requestPermissions` del sistema. Solo para permisos de tiempo de ejecución.                                          |
+| ¿Dónde / cómo en iOS?     | En `Info.plist`, con la clave `NS...UsageDescription` y el texto de propósito.                                                              | Con la función del framework de cada recurso. El diálogo aparece una sola vez.                                             |
+| ¿Dónde / cómo en Expo?    | En `app.json`: el plugin de cada módulo, `android.permissions`, `android.blockedPermissions` e `ios.infoPlist`. Se aplica con prebuild. | Con las funciones de cada módulo: `use...Permissions()`, `get...PermissionsAsync()` y `request...PermissionsAsync()`. |
+| ¿Qué pasa si se omite?     | Android deniega el pedido sin mostrar diálogo. iOS cierra la app y la build puede ser rechazada.                                                | La función no anda. Sin pedir no hay permiso, salvo los de instalación.                                                    |
 
 ### A3. Verdadero o falso
 
@@ -59,12 +59,12 @@ La diferencia central es esta: Android da dos oportunidades para preguntar y iOS
 
 b)
 
-| Estado | status | canAskAgain | ¿Puede aparecer el diálogo? |
-|---|---|---|---|
-| Sin decidir | `undetermined` | `true` | Sí |
-| Concedido | `granted` | `true` | No hace falta |
-| Denegado (se puede volver a pedir) | `denied` | `true` | Sí. Solo pasa en Android, después del primer rechazo. |
-| Bloqueado | `denied` | `false` | No. Solo desde Ajustes. |
+| Estado                             | status           | canAskAgain | ¿Puede aparecer el diálogo?                           |
+| ---------------------------------- | ---------------- | ----------- | ------------------------------------------------------- |
+| Sin decidir                        | `undetermined` | `true`    | Sí                                                     |
+| Concedido                          | `granted`      | `true`    | No hace falta                                           |
+| Denegado (se puede volver a pedir) | `denied`       | `true`    | Sí. Solo pasa en Android, después del primer rechazo. |
+| Bloqueado                          | `denied`       | `false`   | No. Solo desde Ajustes.                                 |
 
 ---
 
@@ -72,18 +72,18 @@ b)
 
 ### B1. Clasificá los permisos
 
-| Permiso | Tipo | ¿Cómo se obtiene? |
-|---|---|---|
-| `INTERNET` | De instalación | Se concede solo al instalar. |
-| `CAMERA` | De tiempo de ejecución | Con el diálogo al pedirlo. |
-| `VIBRATE` | De instalación | Al instalar. |
-| `SYSTEM_ALERT_WINDOW` | Especial | La persona lo activa en Ajustes, en "Mostrar sobre otras apps". |
-| `POST_NOTIFICATIONS` | De tiempo de ejecución (Android 13 o superior) | Con el diálogo. Antes de Android 13 no existe. |
-| `ACCESS_NETWORK_STATE` | De instalación | Al instalar. |
-| `READ_CONTACTS` | De tiempo de ejecución | Con el diálogo. |
-| `SCHEDULE_EXACT_ALARM` | Especial | La persona lo activa en Ajustes, en "Alarmas y recordatorios". |
-| `RECORD_AUDIO` | De tiempo de ejecución | Con el diálogo. |
-| `MANAGE_EXTERNAL_STORAGE` | Especial | La persona lo activa en Ajustes, en "Acceso a todos los archivos". Google Play lo restringe mucho. |
+| Permiso                     | Tipo                                            | ¿Cómo se obtiene?                                                                                |
+| --------------------------- | ----------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `INTERNET`                | De instalación                                 | Se concede solo al instalar.                                                                       |
+| `CAMERA`                  | De tiempo de ejecución                         | Con el diálogo al pedirlo.                                                                        |
+| `VIBRATE`                 | De instalación                                 | Al instalar.                                                                                       |
+| `SYSTEM_ALERT_WINDOW`     | Especial                                        | La persona lo activa en Ajustes, en "Mostrar sobre otras apps".                                    |
+| `POST_NOTIFICATIONS`      | De tiempo de ejecución (Android 13 o superior) | Con el diálogo. Antes de Android 13 no existe.                                                    |
+| `ACCESS_NETWORK_STATE`    | De instalación                                 | Al instalar.                                                                                       |
+| `READ_CONTACTS`           | De tiempo de ejecución                         | Con el diálogo.                                                                                   |
+| `SCHEDULE_EXACT_ALARM`    | Especial                                        | La persona lo activa en Ajustes, en "Alarmas y recordatorios".                                     |
+| `RECORD_AUDIO`            | De tiempo de ejecución                         | Con el diálogo.                                                                                   |
+| `MANAGE_EXTERNAL_STORAGE` | Especial                                        | La persona lo activa en Ajustes, en "Acceso a todos los archivos". Google Play lo restringe mucho. |
 
 ### B2. Grupos y nombres
 
@@ -139,15 +139,15 @@ e) Android cierra el proceso de la app. Al volver, la app arranca de nuevo. Por 
 
 ### B5. Android, versión por versión
 
-| Cambio | Versión (API) | Qué implica para el código |
-|---|---|---|
-| Nacen los permisos en tiempo de ejecución | Android 6 (API 23) | No alcanza con declarar. Hay que pedir el permiso mientras la app corre. |
-| La ubicación en segundo plano pasa a ser un permiso aparte | Android 10 (API 29) | `ACCESS_BACKGROUND_LOCATION` es otro permiso. Desde Android 11 se pide después del de primer plano. |
-| Dos rechazos equivalen a "no volver a preguntar" | Android 11 (API 30) | Hay que mirar `canAskAgain` y llevar a Ajustes cuando vale `false`. |
-| Ubicación precisa o aproximada | Android 12 (API 31) | Hay que declarar los dos permisos y aceptar que llegue solo la aproximada. |
-| Las notificaciones pasan a ser un permiso (`POST_NOTIFICATIONS`) | Android 13 (API 33) | Hay que crear el canal y después pedir el permiso. |
-| Acceso parcial a fotos y videos ("Seleccionar fotos") | Android 14 (API 34) | Aparece `READ_MEDIA_VISUAL_USER_SELECTED`. Conviene usar el selector del sistema. |
-| Permiso de red local (`ACCESS_LOCAL_NETWORK`) | Android 17 (API 37) | Las apps que apuntan a API 37 deben declararlo y pedirlo para hablar con equipos de la red local. |
+| Cambio                                                             | Versión (API)      | Qué implica para el código                                                                           |
+| ------------------------------------------------------------------ | ------------------- | ------------------------------------------------------------------------------------------------------ |
+| Nacen los permisos en tiempo de ejecución                         | Android 6 (API 23)  | No alcanza con declarar. Hay que pedir el permiso mientras la app corre.                               |
+| La ubicación en segundo plano pasa a ser un permiso aparte        | Android 10 (API 29) | `ACCESS_BACKGROUND_LOCATION` es otro permiso. Desde Android 11 se pide después del de primer plano. |
+| Dos rechazos equivalen a "no volver a preguntar"                   | Android 11 (API 30) | Hay que mirar `canAskAgain` y llevar a Ajustes cuando vale `false`.                                |
+| Ubicación precisa o aproximada                                    | Android 12 (API 31) | Hay que declarar los dos permisos y aceptar que llegue solo la aproximada.                             |
+| Las notificaciones pasan a ser un permiso (`POST_NOTIFICATIONS`) | Android 13 (API 33) | Hay que crear el canal y después pedir el permiso.                                                    |
+| Acceso parcial a fotos y videos ("Seleccionar fotos")              | Android 14 (API 34) | Aparece `READ_MEDIA_VISUAL_USER_SELECTED`. Conviene usar el selector del sistema.                    |
+| Permiso de red local (`ACCESS_LOCAL_NETWORK`)                    | Android 17 (API 37) | Las apps que apuntan a API 37 deben declararlo y pedirlo para hablar con equipos de la red local.      |
 
 `targetSdkVersion` indica para qué versión de Android se preparó la app. El sistema le aplica las reglas nuevas de esa versión. Expo SDK 57 apunta a API 36 (Android 16). SDK 58, que usa este proyecto, también apunta a API 36. Google Play exige desde el 31 de agosto de 2026 que las apps nuevas y las actualizaciones apunten a API 36 o superior.
 
@@ -157,18 +157,18 @@ e) Android cierra el proceso de la app. Al volver, la app arranca de nuevo. Por 
 
 ### C1. Claves del Info.plist
 
-| Recurso | Clave en Info.plist |
-|---|---|
-| Cámara | `NSCameraUsageDescription` |
-| Micrófono | `NSMicrophoneUsageDescription` |
-| Ubicación en uso | `NSLocationWhenInUseUsageDescription` |
-| Ubicación siempre | `NSLocationAlwaysAndWhenInUseUsageDescription` |
-| Fotos (leer) | `NSPhotoLibraryUsageDescription` |
-| Fotos (solo guardar) | `NSPhotoLibraryAddUsageDescription` |
-| Contactos | `NSContactsUsageDescription` |
-| Face ID | `NSFaceIDUsageDescription` |
-| Rastreo entre apps (ATT) | `NSUserTrackingUsageDescription` |
-| Notificaciones | No lleva clave. |
+| Recurso                  | Clave en Info.plist                              |
+| ------------------------ | ------------------------------------------------ |
+| Cámara                  | `NSCameraUsageDescription`                     |
+| Micrófono               | `NSMicrophoneUsageDescription`                 |
+| Ubicación en uso        | `NSLocationWhenInUseUsageDescription`          |
+| Ubicación siempre       | `NSLocationAlwaysAndWhenInUseUsageDescription` |
+| Fotos (leer)             | `NSPhotoLibraryUsageDescription`               |
+| Fotos (solo guardar)     | `NSPhotoLibraryAddUsageDescription`            |
+| Contactos                | `NSContactsUsageDescription`                   |
+| Face ID                  | `NSFaceIDUsageDescription`                     |
+| Rastreo entre apps (ATT) | `NSUserTrackingUsageDescription`               |
+| Notificaciones           | No lleva clave.                                  |
 
 ### C2. Sin texto, no hay permiso
 
@@ -182,38 +182,38 @@ d) Apple revisa el binario y encuentra el uso de la API protegida dentro de la l
 
 ### C3. Probador de textos de propósito
 
-| Texto propuesto | ¿Aprobado? | Versión mejorada |
-|---|---|---|
-| "Necesitamos tu ubicación." | No. No dice para qué. | "Usamos tu ubicación para mostrarte los comercios que tenés cerca." |
-| "Para mejorar tu experiencia." | No. No dice qué dato ni qué beneficio. | "Usamos tu ubicación para ordenar los resultados por cercanía." |
-| "Usamos tu ubicación para mostrarte las farmacias de turno más cercanas." | Sí. Tiene el dato y un beneficio concreto. | No hace falta cambiarlo. |
-| "La app no funciona sin ubicación." | No. Presiona a la persona y no explica el beneficio. | "Usamos tu ubicación para mostrarte las sucursales más cercanas." |
-| "Ubicación requerida por el sistema." | No. Es falso, porque la pide la app, y no explica nada. | "Usamos tu ubicación para marcar dónde está el problema que reportás." |
+| Texto propuesto                                                             | ¿Aprobado?                                             | Versión mejorada                                                          |
+| --------------------------------------------------------------------------- | ------------------------------------------------------- | -------------------------------------------------------------------------- |
+| "Necesitamos tu ubicación."                                                | No. No dice para qué.                                  | "Usamos tu ubicación para mostrarte los comercios que tenés cerca."      |
+| "Para mejorar tu experiencia."                                              | No. No dice qué dato ni qué beneficio.                | "Usamos tu ubicación para ordenar los resultados por cercanía."          |
+| "Usamos tu ubicación para mostrarte las farmacias de turno más cercanas." | Sí. Tiene el dato y un beneficio concreto.             | No hace falta cambiarlo.                                                   |
+| "La app no funciona sin ubicación."                                        | No. Presiona a la persona y no explica el beneficio.    | "Usamos tu ubicación para mostrarte las sucursales más cercanas."        |
+| "Ubicación requerida por el sistema."                                      | No. Es falso, porque la pide la app, y no explica nada. | "Usamos tu ubicación para marcar dónde está el problema que reportás." |
 
 ### C4. Acceso parcial y gradual
 
-| Caso | iOS | En Expo |
-|---|---|---|
-| Fotos limitadas ("Seleccionar fotos") | iOS 14 | `expo-media-library`: `status: 'granted'` con `accessPrivileges: 'limited'`. |
-| Ubicación aproximada (interruptor "Precisa") | iOS 14 | `expo-location`: `ios.accuracy: 'reduced'` en la respuesta del permiso. |
-| "Permitir una vez" (ubicación) | iOS 13 | No hay un campo propio. Durante la sesión llega `granted`. Al volver a abrir la app el estado vuelve a `undetermined`. |
-| Ubicación escalonada: de "al usar la app" a "Siempre" | iOS 13 | Primero `requestForegroundPermissionsAsync()` y después `requestBackgroundPermissionsAsync()`. |
-| Notificaciones provisionales | iOS 12 | Se piden con `requestPermissionsAsync({ ios: { allowProvisional: true } })`. Se detectan con `ios.status === IosAuthorizationStatus.PROVISIONAL`. |
-| Rastreo entre apps (App Tracking Transparency) | iOS 14.5 | `expo-tracking-transparency`: `requestTrackingPermissionsAsync()`. |
+| Caso                                                   | iOS      | En Expo                                                                                                                                               |
+| ------------------------------------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Fotos limitadas ("Seleccionar fotos")                  | iOS 14   | `expo-media-library`: `status: 'granted'` con `accessPrivileges: 'limited'`.                                                                    |
+| Ubicación aproximada (interruptor "Precisa")          | iOS 14   | `expo-location`: `ios.accuracy: 'reduced'` en la respuesta del permiso.                                                                           |
+| "Permitir una vez" (ubicación)                        | iOS 13   | No hay un campo propio. Durante la sesión llega `granted`. Al volver a abrir la app el estado vuelve a `undetermined`.                           |
+| Ubicación escalonada: de "al usar la app" a "Siempre" | iOS 13   | Primero `requestForegroundPermissionsAsync()` y después `requestBackgroundPermissionsAsync()`.                                                   |
+| Notificaciones provisionales                           | iOS 12   | Se piden con `requestPermissionsAsync({ ios: { allowProvisional: true } })`. Se detectan con `ios.status === IosAuthorizationStatus.PROVISIONAL`. |
+| Rastreo entre apps (App Tracking Transparency)         | iOS 14.5 | `expo-tracking-transparency`: `requestTrackingPermissionsAsync()`.                                                                                |
 
 Expo SDK 57 requiere iOS 16.4 como mínimo. SDK 58 mantiene el mismo mínimo. La consecuencia práctica es que todos los casos de la tabla existen en cualquier iPhone compatible. No hace falta código distinto por versión de iOS.
 
 ### C5. Android vs iOS, lado a lado
 
-| | Android | iOS |
-|---|---|---|
-| ¿Dónde se declara? | `AndroidManifest.xml`, con `uses-permission`. | `Info.plist`, con `NS...UsageDescription`. |
-| Texto en el diálogo | Lo pone el sistema. No se puede cambiar. | La app escribe el texto de propósito. |
-| Oportunidades para preguntar | Dos (Android 11 o superior). | Una. |
-| "Solo esta vez" / "Permitir una vez" | "Solo esta vez" desde Android 11, para ubicación, cámara y micrófono. | "Permitir una vez" desde iOS 13, para ubicación. |
-| Notificaciones | Permiso `POST_NOTIFICATIONS` desde Android 13. Antes hay que crear un canal. | Diálogo sin texto de propósito. Existen las notificaciones provisionales. |
-| Ubicación en segundo plano | Permiso aparte desde Android 10. Se pide después del de primer plano. | Escalonada. "Siempre" se ofrece después de "al usar la app". |
-| Si falta la declaración | El pedido se deniega sin diálogo. | La app se cierra y la build se rechaza. |
+|                                      | Android                                                                        | iOS                                                                         |
+| ------------------------------------ | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------- |
+| ¿Dónde se declara?                 | `AndroidManifest.xml`, con `uses-permission`.                              | `Info.plist`, con `NS...UsageDescription`.                              |
+| Texto en el diálogo                 | Lo pone el sistema. No se puede cambiar.                                       | La app escribe el texto de propósito.                                      |
+| Oportunidades para preguntar         | Dos (Android 11 o superior).                                                   | Una.                                                                        |
+| "Solo esta vez" / "Permitir una vez" | "Solo esta vez" desde Android 11, para ubicación, cámara y micrófono.       | "Permitir una vez" desde iOS 13, para ubicación.                           |
+| Notificaciones                       | Permiso `POST_NOTIFICATIONS` desde Android 13. Antes hay que crear un canal. | Diálogo sin texto de propósito. Existen las notificaciones provisionales. |
+| Ubicación en segundo plano          | Permiso aparte desde Android 10. Se pide después del de primer plano.         | Escalonada. "Siempre" se ofrece después de "al usar la app".               |
+| Si falta la declaración             | El pedido se deniega sin diálogo.                                             | La app se cierra y la build se rechaza.                                     |
 
 ---
 
@@ -221,16 +221,16 @@ Expo SDK 57 requiere iOS 16.4 como mínimo. SDK 58 mantiene el mismo mínimo. La
 
 ### D1. Módulos y funciones
 
-| Necesidad | Módulo | Hook / función de permiso |
-|---|---|---|
-| Escanear un QR con la cámara | `expo-camera` | `useCameraPermissions()` |
-| Grabar video con sonido | `expo-camera` | `useCameraPermissions()` y `useMicrophonePermissions()` |
-| Mostrar farmacias cercanas | `expo-location` | `useForegroundPermissions()` |
-| Seguir un envío con la app en segundo plano | `expo-location` | `useForegroundPermissions()` y después `useBackgroundPermissions()` |
-| Mostrar un recordatorio | `expo-notifications` | `getPermissionsAsync()` y `requestPermissionsAsync()` |
-| Grabar una nota de voz | `expo-audio` | `getRecordingPermissionsAsync()` y `requestRecordingPermissionsAsync()` |
-| Galería propia dentro de la app | `expo-media-library` | `usePermissions()` |
-| Publicidad personalizada entre apps (iOS) | `expo-tracking-transparency` | `useTrackingPermissions()` |
+| Necesidad                                    | Módulo                        | Hook / función de permiso                                                  |
+| -------------------------------------------- | ------------------------------ | --------------------------------------------------------------------------- |
+| Escanear un QR con la cámara                | `expo-camera`                | `useCameraPermissions()`                                                  |
+| Grabar video con sonido                      | `expo-camera`                | `useCameraPermissions()` y `useMicrophonePermissions()`                 |
+| Mostrar farmacias cercanas                   | `expo-location`              | `useForegroundPermissions()`                                              |
+| Seguir un envío con la app en segundo plano | `expo-location`              | `useForegroundPermissions()` y después `useBackgroundPermissions()`    |
+| Mostrar un recordatorio                      | `expo-notifications`         | `getPermissionsAsync()` y `requestPermissionsAsync()`                   |
+| Grabar una nota de voz                       | `expo-audio`                 | `getRecordingPermissionsAsync()` y `requestRecordingPermissionsAsync()` |
+| Galería propia dentro de la app             | `expo-media-library`         | `usePermissions()`                                                        |
+| Publicidad personalizada entre apps (iOS)    | `expo-tracking-transparency` | `useTrackingPermissions()`                                                |
 
 Si un tutorial usa `import * as Permissions from 'expo-permissions'`, el tutorial está desactualizado. Ese paquete quedó obsoleto y hoy cada módulo pide sus propios permisos.
 
@@ -244,28 +244,28 @@ c) Si `canAskAgain` es `false`, `request...()` devuelve `denied` enseguida y no 
 
 ### D3. Leé la respuesta
 
-| Respuesta | Qué hace la app |
-|---|---|
-| `null` | Todavía no se sabe el estado. Muestra un indicador de carga. |
-| `{ status: 'granted', granted: true }` | Usa la función. |
-| `{ status: 'undetermined', canAskAgain: true }` | Muestra la pantalla previa. Al tocar "Continuar", pide el permiso. |
-| `{ status: 'denied', canAskAgain: true }` | Muestra la alternativa. Vuelve a ofrecer la pantalla previa solo si la persona toca otra vez la función. |
-| `{ status: 'denied', canAskAgain: false }` | Está bloqueado. Muestra cómo activarlo, el botón "Abrir Ajustes" y la alternativa. |
-| `{ status: 'granted', accessPrivileges: 'limited' }` | Funciona con las fotos elegidas. Avisa que el acceso es parcial y ofrece cambiar la selección. |
-| `{ status: 'granted', android: { accuracy: 'coarse' } }` | Funciona con ubicación aproximada. No muestra coordenadas exactas. |
+| Respuesta                                                  | Qué hace la app                                                                                          |
+| ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `null`                                                   | Todavía no se sabe el estado. Muestra un indicador de carga.                                             |
+| `{ status: 'granted', granted: true }`                   | Usa la función.                                                                                          |
+| `{ status: 'undetermined', canAskAgain: true }`          | Muestra la pantalla previa. Al tocar "Continuar", pide el permiso.                                        |
+| `{ status: 'denied', canAskAgain: true }`                | Muestra la alternativa. Vuelve a ofrecer la pantalla previa solo si la persona toca otra vez la función. |
+| `{ status: 'denied', canAskAgain: false }`               | Está bloqueado. Muestra cómo activarlo, el botón "Abrir Ajustes" y la alternativa.                     |
+| `{ status: 'granted', accessPrivileges: 'limited' }`     | Funciona con las fotos elegidas. Avisa que el acceso es parcial y ofrece cambiar la selección.           |
+| `{ status: 'granted', android: { accuracy: 'coarse' } }` | Funciona con ubicación aproximada. No muestra coordenadas exactas.                                       |
 
 Los dos campos que deciden casi todo son `granted` y `canAskAgain`. `granted` responde "¿puedo usar la función ahora?". `canAskAgain` responde "¿puedo volver a mostrar el diálogo?".
 
 ### D4. Simulación del ciclo completo
 
-| # | Acción | status | canAskAgain | ¿Diálogo? |
-|---|---|---|---|---|
-| 1 | `getForegroundPermissionsAsync()` | `undetermined` | `true` | No |
-| 2 | `requestForegroundPermissionsAsync()` y "No permitir" | `denied` | `true` | Sí |
-| 3 | `requestForegroundPermissionsAsync()` y "No permitir" | `denied` | `false` | Sí |
-| 4 | `requestForegroundPermissionsAsync()` | `denied` | `false` | No. Responde al instante. |
-| 5 | `Linking.openSettings()`, activa "Mientras la app está en uso", vuelve y la app consulta | `granted` | `true` | No |
-| 6 | Igual que el 5, pero la app no vuelve a consultar | Sigue mostrando el estado viejo: `denied` y bloqueado | `false` (dato viejo) | No |
+| # | Acción                                                                                     | status                                                  | canAskAgain            | ¿Diálogo?               |
+| - | ------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ---------------------- | ------------------------- |
+| 1 | `getForegroundPermissionsAsync()`                                                         | `undetermined`                                        | `true`               | No                        |
+| 2 | `requestForegroundPermissionsAsync()` y "No permitir"                                     | `denied`                                              | `true`               | Sí                       |
+| 3 | `requestForegroundPermissionsAsync()` y "No permitir"                                     | `denied`                                              | `false`              | Sí                       |
+| 4 | `requestForegroundPermissionsAsync()`                                                     | `denied`                                              | `false`              | No. Responde al instante. |
+| 5 | `Linking.openSettings()`, activa "Mientras la app está en uso", vuelve y la app consulta | `granted`                                             | `true`               | No                        |
+| 6 | Igual que el 5, pero la app no vuelve a consultar                                           | Sigue mostrando el estado viejo: `denied` y bloqueado | `false` (dato viejo) | No                        |
 
 En iOS el resultado cambia en el paso 2. Con "No permitir" el permiso queda `denied` con `canAskAgain: false`, porque iOS pregunta una sola vez. En los pasos 3 y 4 no aparece ningún diálogo. Si la persona elige "Permitir una vez" y después cierra y abre la app, el permiso vuelve a `undetermined` y la app puede preguntar de nuevo.
 
@@ -443,12 +443,12 @@ d) Conviene pedirlo cuando la persona entiende el beneficio. Buen momento: al ac
 
 ### E4. Fotos sin pedir permiso
 
-| Necesidad | Herramienta | Permiso |
-|---|---|---|
-| Elegir una foto de perfil | `ImagePicker.launchImageLibraryAsync` (selector del sistema) | Ninguno |
-| Sacar una foto en el momento | `ImagePicker.launchCameraAsync` o `expo-camera` | Cámara |
-| Editor que muestra toda la galería | `expo-media-library` | Acceso a la galería |
-| Adjuntar la foto de un comprobante | `ImagePicker.launchImageLibraryAsync` (selector del sistema) | Ninguno |
+| Necesidad                           | Herramienta                                                    | Permiso              |
+| ----------------------------------- | -------------------------------------------------------------- | -------------------- |
+| Elegir una foto de perfil           | `ImagePicker.launchImageLibraryAsync` (selector del sistema) | Ninguno              |
+| Sacar una foto en el momento        | `ImagePicker.launchCameraAsync` o `expo-camera`            | Cámara              |
+| Editor que muestra toda la galería | `expo-media-library`                                         | Acceso a la galería |
+| Adjuntar la foto de un comprobante  | `ImagePicker.launchImageLibraryAsync` (selector del sistema) | Ninguno              |
 
 Google Play restringe `READ_MEDIA_IMAGES` y `READ_MEDIA_VIDEO` porque dan acceso a toda la galería. Solo los permite si la función principal de la app necesita ese acceso amplio. Para un uso puntual exige el selector del sistema. Google anunció la política en 2023. El plazo para cumplirla fue el 22 de enero de 2025, con prórroga posible hasta el 28 de mayo de 2025. "El mejor permiso" es el que no hace falta pedir. El selector del sistema entrega solo la foto elegida y no necesita ningún permiso.
 
@@ -486,14 +486,14 @@ c) La persona puede cambiar el permiso en Ajustes cuando quiera. La fuente de ve
 
 ### F1. Pedir en contexto
 
-| App y permiso | ¿Cuándo pedirlo? | Alternativa si lo deniegan |
-|---|---|---|
-| Delivery · ubicación | Al tocar "Usar mi ubicación" para la dirección de entrega. | Escribir la dirección a mano. |
-| Billetera virtual · cámara | Al tocar "Escanear QR" para pagar. | Escribir el código o el alias a mano. |
-| Red social · contactos | Al tocar "Buscar amigos". | Buscar por nombre o enviar un enlace de invitación. |
-| Mensajería · micrófono | Al mantener presionado el botón para grabar un audio. | Escribir el mensaje. |
-| Turnos médicos · notificaciones | Al confirmar un turno, con la pregunta "¿Querés un recordatorio?". | Ver los turnos y los avisos dentro de la app. |
-| Editor de fotos · galería completa | Al tocar "Abrir mi galería". | Elegir fotos sueltas con el selector del sistema. |
+| App y permiso                        | ¿Cuándo pedirlo?                                                   | Alternativa si lo deniegan                           |
+| ------------------------------------ | -------------------------------------------------------------------- | ---------------------------------------------------- |
+| Delivery · ubicación               | Al tocar "Usar mi ubicación" para la dirección de entrega.         | Escribir la dirección a mano.                       |
+| Billetera virtual · cámara         | Al tocar "Escanear QR" para pagar.                                   | Escribir el código o el alias a mano.               |
+| Red social · contactos              | Al tocar "Buscar amigos".                                            | Buscar por nombre o enviar un enlace de invitación. |
+| Mensajería · micrófono            | Al mantener presionado el botón para grabar un audio.               | Escribir el mensaje.                                 |
+| Turnos médicos · notificaciones    | Al confirmar un turno, con la pregunta "¿Querés un recordatorio?". | Ver los turnos y los avisos dentro de la app.        |
+| Editor de fotos · galería completa | Al tocar "Abrir mi galería".                                        | Elegir fotos sueltas con el selector del sistema.    |
 
 Pedir cuatro permisos apenas se abre la app "entrena el No permitir automático". La persona todavía no sabe para qué sirve cada permiso. Entonces rechaza todo por costumbre. En iOS ese rechazo es definitivo.
 

@@ -46,8 +46,18 @@ export function FilaPermiso({ recurso }: FilaPermisoProps) {
         Plataforma: {plataforma}
       </ThemedText>
       {detalle !== null ? <ThemedText type="small">{detalle}</ThemedText> : null}
-      {estado === 'preguntable' ? <Boton titulo="Pedir permiso" onPress={abrirPantallaPrevia} /> : null}
-      {estado === 'bloqueado' ? <Boton titulo="Abrir Ajustes" onPress={abrirAjustes} /> : null}
+      {estado === 'preguntable' ? (
+        <Boton titulo="Pedir permiso" onPress={abrirPantallaPrevia} />
+      ) : null}
+      {estado === 'bloqueado' && plataforma === 'web' ? (
+        <ThemedText type="small">
+          En el navegador: tocá el ícono a la izquierda de la dirección, activá{' '}
+          {TEXTOS[recurso].titulo} y recargá la página.
+        </ThemedText>
+      ) : null}
+      {estado === 'bloqueado' && plataforma !== 'web' ? (
+        <Boton titulo="Abrir Ajustes" onPress={abrirAjustes} />
+      ) : null}
     </ThemedView>
   );
 }

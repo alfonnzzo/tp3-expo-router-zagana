@@ -2,6 +2,7 @@ import { CameraView } from 'expo-camera';
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Boton } from '@/components/boton';
 import { CampoTexto } from '@/components/campo-texto';
@@ -18,6 +19,7 @@ export default function EscanearAula() {
   const yaLeido = useRef(false);
   const [codigo, setCodigo] = useState('');
   const [rechazado, setRechazado] = useState(false);
+  const [falloCamara, setFalloCamara] = useState(false);
 
   function guardarAula(aula: string) {
     actualizarBorrador({ aula });
@@ -47,7 +49,7 @@ export default function EscanearAula() {
     );
   }
 
-  if (estado === 'concedido') {
+  if (estado === 'concedido' && !falloCamara) {
     return (
       <ThemedView style={styles.camara}>
         <CameraView
@@ -55,52 +57,77 @@ export default function EscanearAula() {
           facing="back"
           barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
           onBarcodeScanned={alLeer}
+          onMountError={() => setFalloCamara(true)}
         />
         <ThemedText type="small" style={styles.ayuda}>
           Apuntá al código QR pegado en la puerta del aula.
         </ThemedText>
+        <Boton titulo="Volver" variante="secundario" onPress={() => router.back()} />
       </ThemedView>
     );
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.contenido}>
-      {estado === 'preguntable' && !rechazado ? (
-        <PantallaPrevia recurso="camara" onContinuar={() => setRechazado(true)} />
-      ) : null}
-      {estado === 'preguntable' && rechazado ? (
+    <SafeAreaView style={styles.pantalla} edges={['top']}>
+      <ScrollView contentContainerStyle={styles.contenido} showsVerticalScrollIndicator={false}>
+        <ThemedText type="subtitle">Escanear aula</ThemedText>
+        {falloCamara ? (
+          <ThemedView style={styles.bloque}>
+            <ThemedText>
+              No pudimos abrir la cámara. Puede estar en uso por otra app. Cerrala y tocá Intentar
+              de nuevo, o escribí el código del aula.
+            </ThemedText>
+            <Boton
+              titulo="Intentar de nuevo"
+              variante="secundario"
+              onPress={() => setFalloCamara(false)}
+            />
+          </ThemedView>
+        ) : null}
+        {estado === 'preguntable' && !rechazado ? (
+          <PantallaPrevia recurso="camara" onContinuar={() => setRechazado(true)} />
+        ) : null}
+        {estado === 'preguntable' && rechazado ? (
+          <ThemedView style={styles.bloque}>
+            <ThemedText>
+              No diste permiso a la cámara. Escribí el código del aula o tocá Intentar de nuevo.
+            </ThemedText>
+            <Boton
+              titulo="Intentar de nuevo"
+              variante="secundario"
+              onPress={() => setRechazado(false)}
+            />
+          </ThemedView>
+        ) : null}
+        {estado === 'bloqueado' ? (
+          <ThemedView style={styles.bloque}>
+            <ThemedText type="subtitle">Cámara bloqueada</ThemedText>
+            <ThemedText>
+              No podemos abrir la cámara. Activala en Ajustes o escribí el código del aula.
+            </ThemedText>
+            <ThemedText type="small">Android: {TEXTOS.camara.rutaAjustesAndroid}</ThemedText>
+            <ThemedText type="small">iOS: {TEXTOS.camara.rutaAjustesIos}</ThemedText>
+            <Boton titulo="Abrir Ajustes" onPress={abrirAjustes} />
+          </ThemedView>
+        ) : null}
         <ThemedView style={styles.bloque}>
-          <ThemedText>
-            No diste permiso a la cámara. Escribí el código del aula o tocá Intentar de nuevo.
-          </ThemedText>
-          <Boton titulo="Intentar de nuevo" variante="secundario" onPress={() => setRechazado(false)} />
+          <CampoTexto
+            etiqueta="Código del aula"
+            valor={codigo}
+            onChangeText={setCodigo}
+            placeholder="Por ejemplo: Aula 4"
+          />
+          <Boton titulo="Usar este código" variante="secundario" onPress={usarCodigo} />
         </ThemedView>
-      ) : null}
-      {estado === 'bloqueado' ? (
-        <ThemedView style={styles.bloque}>
-          <ThemedText type="subtitle">Cámara bloqueada</ThemedText>
-          <ThemedText>
-            No podemos abrir la cámara. Activala en Ajustes o escribí el código del aula.
-          </ThemedText>
-          <ThemedText type="small">Android: {TEXTOS.camara.rutaAjustesAndroid}</ThemedText>
-          <ThemedText type="small">iOS: {TEXTOS.camara.rutaAjustesIos}</ThemedText>
-          <Boton titulo="Abrir Ajustes" onPress={abrirAjustes} />
-        </ThemedView>
-      ) : null}
-      <ThemedView style={styles.bloque}>
-        <CampoTexto
-          etiqueta="Código del aula"
-          valor={codigo}
-          onChangeText={setCodigo}
-          placeholder="Por ejemplo: Aula 4"
-        />
-        <Boton titulo="Usar este código" variante="secundario" onPress={usarCodigo} />
-      </ThemedView>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  pantalla: {
+    flex: 1,
+  },
   centrado: {
     flex: 1,
     alignItems: 'center',

@@ -15,7 +15,7 @@ export default function InicioScreen() {
   return (
     <ThemedView style={styles.contenedor}>
       <SafeAreaView style={styles.areaSegura} edges={['top']}>
-        <ScrollView contentContainerStyle={styles.contenido}>
+        <ScrollView contentContainerStyle={styles.contenido} showsVerticalScrollIndicator={false}>
           <ThemedText type="subtitle">Mis reportes</ThemedText>
           <Boton titulo="Nuevo reporte" onPress={() => router.push('/reporte/nuevo')} />
           <Boton

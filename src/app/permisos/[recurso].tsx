@@ -1,4 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { PantallaPrevia } from '@/components/pantalla-previa';
 import { ThemedText } from '@/components/themed-text';
@@ -14,11 +15,17 @@ export default function PermisoScreen() {
 
   if (valido === undefined) {
     return (
-      <ThemedView style={{ flex: 1, padding: Spacing.four }}>
-        <ThemedText>Ese permiso no existe.</ThemedText>
-      </ThemedView>
+      <SafeAreaView style={{ flex: 1 }} edges={['top']}>
+        <ThemedView style={{ flex: 1, padding: Spacing.four }}>
+          <ThemedText>Ese permiso no existe.</ThemedText>
+        </ThemedView>
+      </SafeAreaView>
     );
   }
 
-  return <PantallaPrevia recurso={valido} onContinuar={() => router.back()} />;
+  return (
+    <SafeAreaView style={{ flex: 1 }} edges={['top']}>
+      <PantallaPrevia recurso={valido} onContinuar={() => router.back()} />
+    </SafeAreaView>
+  );
 }

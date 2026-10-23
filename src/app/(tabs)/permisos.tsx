@@ -10,7 +10,7 @@ export default function PermisosScreen() {
   return (
     <ThemedView style={styles.contenedor}>
       <SafeAreaView style={styles.areaSegura} edges={['top']}>
-        <ScrollView contentContainerStyle={styles.contenido}>
+        <ScrollView contentContainerStyle={styles.contenido} showsVerticalScrollIndicator={false}>
           <ThemedText type="subtitle">Permisos</ThemedText>
           <ThemedText themeColor="textSecondary">
             La app funciona aunque no concedas ninguno. Podés cambiarlos cuando quieras en Ajustes.
@@ -22,7 +22,8 @@ export default function PermisosScreen() {
           <ThemedView type="backgroundElement" style={styles.galeria}>
             <ThemedText type="smallBold">Galería de fotos</ThemedText>
             <ThemedText type="small">
-              No requiere permiso. La app usa el selector del sistema y solo recibe la foto que elegís.
+              No requiere permiso. La app usa el selector del sistema y solo recibe la foto que
+              elegís.
             </ThemedText>
           </ThemedView>
         </ScrollView>

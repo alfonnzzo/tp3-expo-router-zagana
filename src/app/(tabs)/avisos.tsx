@@ -14,13 +14,13 @@ export default function AvisosScreen() {
   useFocusEffect(
     useCallback(() => {
       marcarAvisosLeidos();
-    }, [])
+    }, []),
   );
 
   return (
     <ThemedView style={styles.contenedor}>
       <SafeAreaView style={styles.areaSegura} edges={['top']}>
-        <ScrollView contentContainerStyle={styles.contenido}>
+        <ScrollView contentContainerStyle={styles.contenido} showsVerticalScrollIndicator={false}>
           <ThemedText type="subtitle">Avisos</ThemedText>
           {avisos.length === 0 ? (
             <ThemedText themeColor="textSecondary">

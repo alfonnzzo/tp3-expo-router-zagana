@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Switch } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Boton } from '@/components/boton';
 import { ThemedText } from '@/components/themed-text';
@@ -42,31 +43,39 @@ export default function AjustesAppScreen() {
   }
 
   return (
-    <ThemedView style={styles.contenedor}>
-      <ThemedView type="backgroundElement" style={styles.fila}>
-        <ThemedText style={styles.textoFila}>Avisarme cuando se resuelva mi reporte</ThemedText>
-        <Switch
-          accessibilityLabel="Avisarme cuando se resuelva mi reporte"
-          value={encendido}
-          onValueChange={cambiar}
-        />
-      </ThemedView>
-      {mostrarBloqueo ? (
-        <ThemedView type="backgroundElement" style={styles.aviso}>
-          <ThemedText type="smallBold">Las notificaciones están bloqueadas</ThemedText>
-          <ThemedText type="small">Android: {TEXTOS.notificaciones.rutaAjustesAndroid}</ThemedText>
-          <ThemedText type="small">iOS: {TEXTOS.notificaciones.rutaAjustesIos}</ThemedText>
-          <Boton titulo="Abrir Ajustes" onPress={abrirAjustes} />
+    <SafeAreaView style={styles.pantalla} edges={['top']}>
+      <ThemedView style={styles.contenedor}>
+        <ThemedText type="subtitle">Ajustes</ThemedText>
+        <ThemedView type="backgroundElement" style={styles.fila}>
+          <ThemedText style={styles.textoFila}>Avisarme cuando se resuelva mi reporte</ThemedText>
+          <Switch
+            accessibilityLabel="Avisarme cuando se resuelva mi reporte"
+            value={encendido}
+            onValueChange={cambiar}
+          />
         </ThemedView>
-      ) : null}
-      <ThemedText type="small" themeColor="textSecondary">
-        Si no activás los avisos, igual vas a verlos en la pestaña Avisos.
-      </ThemedText>
-    </ThemedView>
+        {mostrarBloqueo ? (
+          <ThemedView type="backgroundElement" style={styles.aviso}>
+            <ThemedText type="smallBold">Las notificaciones están bloqueadas</ThemedText>
+            <ThemedText type="small">
+              Android: {TEXTOS.notificaciones.rutaAjustesAndroid}
+            </ThemedText>
+            <ThemedText type="small">iOS: {TEXTOS.notificaciones.rutaAjustesIos}</ThemedText>
+            <Boton titulo="Abrir Ajustes" onPress={abrirAjustes} />
+          </ThemedView>
+        ) : null}
+        <ThemedText type="small" themeColor="textSecondary">
+          Si no activás los avisos, igual vas a verlos en la pestaña Avisos.
+        </ThemedText>
+      </ThemedView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  pantalla: {
+    flex: 1,
+  },
   contenedor: {
     flex: 1,
     padding: Spacing.three,
