@@ -2,6 +2,7 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "noUncheckedSideEffectImports": false,
     "paths": {
       "@/*": [
         "./src/*"
@@ -12,9 +13,8 @@
     }
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
+    "src",
+    ".expo/types",
     "expo-env.d.ts"
   ]
 }
