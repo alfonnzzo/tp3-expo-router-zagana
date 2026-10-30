@@ -24,6 +24,13 @@ export const Colors = {
   },
 } as const;
 
+export const Acento = {
+  primario: '#3c87f7',
+  exito: '#2e9d5b',
+  aviso: '#d9822b',
+  error: '#d64545',
+} as const;
+
 export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
 
 export const Fonts = Platform.select({
